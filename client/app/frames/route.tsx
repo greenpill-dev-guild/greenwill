@@ -1,3 +1,4 @@
+// /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 
 import { frames } from "./frames";
@@ -11,8 +12,7 @@ const handleRequest = frames(async (ctx) => {
           flexDirection: "column",
         }}
       >
-        GM, {ctx.message.requesterUserData?.displayName}! Your FID is{" "}
-        {ctx.message.requesterFid}
+        GM, {ctx.message.state}! Your FID is {ctx.message.requesterFid}
         {", "}
         {ctx.message.requesterFid < 20_000
           ? "you're OG!"
@@ -38,10 +38,6 @@ const handleRequest = frames(async (ctx) => {
   };
 });
 
-// /* eslint-disable react/jsx-key */
-// import { frames } from "./frames";
-// import { Button } from "frames.js/next";
-
 // const handler = frames(async () => {
 //   return {
 //     image: <div tw="flex">Welcome</div>,
@@ -63,8 +59,6 @@ const handleRequest = frames(async (ctx) => {
 
 // export const GET = handler;
 // export const POST = handler;
-
-/* eslint-disable react/jsx-key */
 
 // const handler = frames(async (ctx) => {
 //   if (ctx.message) {

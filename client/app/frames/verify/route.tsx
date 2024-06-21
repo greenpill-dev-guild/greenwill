@@ -1,6 +1,15 @@
 /* eslint-disable react/jsx-key */
-import { frames } from "../../../../multi-page/frames/frames";
+// import { PinataFDK } from "pinata-fdk";
 import { Button } from "frames.js/next";
+
+// import { fetchGreenWill, fetchGrants } from "@/modules/graphql";
+
+import { frames } from "../frames";
+
+// const fdk = new PinataFDK({
+//   pinata_jwt: process.env.PINATA_JWT as string,
+//   pinata_gateway: process.env.GATEWAY_URL as string,
+// });
 
 export const POST = frames(async (ctx) => {
   const foo = ctx.searchParams.foo;
