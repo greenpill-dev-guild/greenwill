@@ -31,11 +31,6 @@ export const POST = frames(async () => {
   };
 });
 
-// const fdk = new PinataFDK({
-//   pinata_jwt: process.env.PINATA_JWT as string,
-//   pinata_gateway: process.env.GATEWAY_URL as string,
-// });
-
 // export async function GET(req: NextRequest, res: NextResponse) {
 //   try {
 //     const frameMetadata = await fdk.getFrameMetadata({
