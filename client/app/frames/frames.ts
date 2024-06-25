@@ -6,7 +6,6 @@ import { getLensFrameMessage, isLensFrameActionPayload } from "frames.js/lens";
 // import { appURL } from "../../../utils";
 
 export type State = {
-  step: "connect" | "calculate" | "claim";
   hasClaimedToken: boolean;
   greenWillScore: number;
   error: string;
@@ -15,7 +14,6 @@ export type State = {
 export const frames = createFrames<State>({
   basePath: "/frames",
   initialState: {
-    step: "connect",
     hasClaimedToken: false,
     greenWillScore: 0,
     error: "",

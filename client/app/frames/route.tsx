@@ -13,20 +13,14 @@ const handler = frames(async (ctx) => {
 
   return {
     image: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-        className=""
-      >
+      <div className="">
         <h2>Check Your GreenWill</h2>
         <p></p>
       </div>
     ),
     buttons: [
       <Button action="post" target="/calculate">
-        Calculate GreenWill
+        Calculate
       </Button>,
     ],
   };
