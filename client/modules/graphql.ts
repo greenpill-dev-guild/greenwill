@@ -3,7 +3,11 @@ import { request, gql } from "graphql-request";
 const AIRSTACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 const GRANTS_STACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 
-const regens = ['@owocki', '@jimicohen', '@luciano'];
+const map = new Map();
+map.set("owocki", true);
+map.set("jimicohen", true);
+map.set("luciano", true);
+
 const queryGreenWill = gql`
   query GetFollowers {
   SocialFollowers(
@@ -37,13 +41,20 @@ const queryGrants = gql`
 export async function calculateGreenWill() {
   const data = await request<{ rounds: any[] }>(AIRSTACK_API, queryGreenWill);
   let followers = []
-  const temp = data.SocialFollowers.Follower;
-  for(int i = 0; i < temp.length; i++) {
-    for(int j = 0; j < temp[i].socials; j++) {
-      followers.push(temp[i].socials[j].profileName);
+  const temp = data.data.SocialFollowers.Follower;
+  for(let i = 0; i < temp.length; i++) {
+    for(let j = 0; j < temp[i].followerAddress.socials.length; j++) {
+      followers.push(temp[i].followerAddress.socials[j].profileName);
     }
   }
   console.log(followers);
+
+  let score = 0;
+  for(let i = 0; i < followers.length; i++) {
+    if(map.get(followers[i]) === true) {
+      score++;
+    }
+  }
 }
 
 export async function fetchGrants(id: string) {
