@@ -10,6 +10,13 @@ const fdk = new PinataFDK({
 });
 
 export const POST = frames(async () => {
+    //   if (ctx.message) {
+  //     if (!ctx.message.inputText) {
+  //       console.log("error");
+  //       error("Invalid input: Empty text");
+  //     }
+  //   }
+
   const error = "";
   return {
     image: <div tw={error ? "" : ""}>{error ? "" : ""}</div>,

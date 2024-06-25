@@ -2,7 +2,7 @@
 import { PinataFDK } from "pinata-fdk";
 import { Button } from "frames.js/next";
 
-import { fetchGreenWill, fetchGrants } from "@/modules/graphql";
+import { calculateGreenWill } from "@/modules/graphql";
 
 import { frames } from "../frames";
 
@@ -13,16 +13,35 @@ const fdk = new PinataFDK({
 
 const PASSING_SCORE = 40;
 
-export const POST = frames(async (ctx) => {
-  const score = ctx.state.greenWillScore;
+function scoreMessage(score: number) {
+  if (score >= 80) {
+    return "";
+  } else if (score >= 60) {
+    return "";
+  } else if (score >= 40) {
+      return "";
+  } else {
+    return "Sorry, you don't have enough GreenWill to claim token"
+  }
+}
 
-  const canClaim = score > PASSING_SCORE;
+export const POST = frames(async (ctx) => {
+  const greenWillScore = 20 /// TODO: Update with function returning score
+
+  const canClaim = greenWillScore > PASSING_SCORE;
+
+  const updatedState = { 
+    ...ctx.state,
+    greenWillScore,
+  }; 
 
   return {
     image: (
-      <div className={canClaim ? "" : ""}>
-        <span>{score}</span>
-        {canClaim ? "" : ""}
+      <div className={canClaim ? "bg-green-400" : "bg-red-200"}>
+        <span>{greenWillScore}</span>
+        <p>
+          {scoreMessage(greenWillScore)}
+        </p>
       </div>
     ),
     buttons: canClaim

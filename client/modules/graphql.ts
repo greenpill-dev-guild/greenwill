@@ -3,34 +3,24 @@ import { request, gql } from "graphql-request";
 const AIRSTACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 const GRANTS_STACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 
+const regens = ['@owocki', '@jimicohen', '@luciano'];
 const queryGreenWill = gql`
-  query Rounds {
-    rounds {
-      id
-      matchAmount
-      matchAmountInUsd
-      chainId
-      createdByAddress
-      applicationsStartTime
-      applicationsEndTime
-      donationsStartTime
-      donationsEndTime
-      project {
-        name
-        createdByAddress
-      }
-      # roundMetadata
-      applications {
-        id
-        project {
-          name
-          projectType
-          createdByAddress
+  query GetFollowers {
+  SocialFollowers(
+    input: {filter: {identity: {_eq: "fc_fname:wusp"}, dappName: {_eq: farcaster}}, blockchain: ALL, limit: 50}
+  ) {
+    Follower {
+      dappName
+      followerProfileId
+      followerAddress {
+        addresses
+        socials {
+          profileName
         }
-        status
       }
     }
   }
+}
 `;
 
 const queryGrants = gql`
@@ -44,10 +34,16 @@ const queryGrants = gql`
   }
 `;
 
-export async function fetchGreenWill() {
+export async function calculateGreenWill() {
   const data = await request<{ rounds: any[] }>(AIRSTACK_API, queryGreenWill);
-
-  return data.rounds;
+  let followers = []
+  const temp = data.SocialFollowers.Follower;
+  for(int i = 0; i < temp.length; i++) {
+    for(int j = 0; j < temp[i].socials; j++) {
+      followers.push(temp[i].socials[j].profileName);
+    }
+  }
+  console.log(followers);
 }
 
 export async function fetchGrants(id: string) {

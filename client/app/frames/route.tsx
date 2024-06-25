@@ -3,19 +3,12 @@ import { Button } from "frames.js/next";
 
 import { frames } from "./frames";
 
-const handler = frames(async (ctx) => {
-  //   if (ctx.message) {
-  //     if (!ctx.message.inputText) {
-  //       console.log("error");
-  //       error("Invalid input: Empty text");
-  //     }
-  //   }
-
+const handler = frames(async () => {
   return {
     image: (
-      <div className="">
-        <h2>Check Your GreenWill</h2>
-        <p></p>
+      <div className="bg-green-300">
+        <h2>Check Your GreenWill!</h2>
+        <img alt="Green Pill" src="/pill.png" className="aspect-square w-1/2 h-1/2"/>
       </div>
     ),
     buttons: [
