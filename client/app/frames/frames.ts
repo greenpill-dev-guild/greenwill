@@ -6,13 +6,19 @@ import { getLensFrameMessage, isLensFrameActionPayload } from "frames.js/lens";
 // import { appURL } from "../../../utils";
 
 export type State = {
-  count: number;
+  step: "connect" | "calculate" | "claim";
+  hasClaimedToken: boolean;
+  greenWillScore: number;
+  error: string;
 };
 
 export const frames = createFrames<State>({
   basePath: "/frames",
   initialState: {
-    count: 0,
+    step: "connect",
+    hasClaimedToken: false,
+    greenWillScore: 0,
+    error: "",
   },
   stateSigningSecret: "my-secret-key",
   // baseUrl: appURL(),

@@ -1,36 +1,39 @@
 /* eslint-disable react/jsx-key */
-// import { PinataFDK } from "pinata-fdk";
+import { PinataFDK } from "pinata-fdk";
 import { Button } from "frames.js/next";
 
-// import { fetchGreenWill, fetchGrants } from "@/modules/graphql";
+import { fetchGreenWill, fetchGrants } from "@/modules/graphql";
 
 import { frames } from "../frames";
 
-// const fdk = new PinataFDK({
-//   pinata_jwt: process.env.PINATA_JWT as string,
-//   pinata_gateway: process.env.GATEWAY_URL as string,
-// });
-
-export const POST = frames(async (ctx) => {
-  const foo = ctx.searchParams.foo;
-
-  return {
-    image: <div tw="flex">Route 1 foo: {foo}</div>, // foo: bar
-    buttons: [
-      <Button action="post" target="/">
-        Go back
-      </Button>,
-      <Button action="post" target="/route2">
-        Go to route 2
-      </Button>,
-    ],
-  };
+const fdk = new PinataFDK({
+  pinata_jwt: process.env.PINATA_JWT!,
+  pinata_gateway: process.env.GATEWAY_URL!,
 });
 
-// const fdk = new PinataFDK({
-//   pinata_jwt: process.env.PINATA_JWT as string,
-//   pinata_gateway: process.env.GATEWAY_URL as string,
-// });
+const PASSING_SCORE = 40;
+
+export const POST = frames(async (ctx) => {
+  const score = ctx.state.greenWillScore;
+
+  const canClaim = score > PASSING_SCORE;
+
+  return {
+    image: (
+      <div className={canClaim ? "" : ""}>
+        <span>{score}</span>
+        {canClaim ? "" : ""}
+      </div>
+    ),
+    buttons: canClaim
+      ? [
+          <Button action="post" target={{ pathname: "/claim", query: {} }}>
+            Claim GreenWill
+          </Button>,
+        ]
+      : [],
+  };
+});
 
 // export async function POST(req: NextRequest, res: NextResponse) {
 //   const body = await req.json();

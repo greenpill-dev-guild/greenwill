@@ -1,25 +1,24 @@
 /* eslint-disable react/jsx-key */
+import { PinataFDK } from "pinata-fdk";
 import { Button } from "frames.js/next";
 
 import { frames } from "../frames";
 
-// const fdk = new PinataFDK({
-//   pinata_jwt: process.env.PINATA_JWT as string,
-//   pinata_gateway: process.env.GATEWAY_URL as string,
-// });
+const fdk = new PinataFDK({
+  pinata_jwt: process.env.PINATA_JWT!,
+  pinata_gateway: process.env.GATEWAY_URL!,
+});
 
 export const POST = frames(async () => {
+  const error = "";
   return {
-    image: <div tw="flex">Route 2</div>,
+    image: <div tw={error ? "" : ""}>{error ? "" : ""}</div>,
     buttons: [
-      <Button action="post" target="/">
-        Go to initial route
+      <Button action="link" target="">
+        View Badge
       </Button>,
-      <Button
-        action="post"
-        target={{ pathname: "/route1", query: { foo: "baz" } }}
-      >
-        Go to route 1
+      <Button action="post" target={{ pathname: "/share" }}>
+        Share For Regen
       </Button>,
     ],
   };
