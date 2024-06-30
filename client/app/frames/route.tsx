@@ -5,82 +5,23 @@ import { frames } from "./frames";
 
 const handleRequest = frames(async (ctx) => {
   return {
-    image: ctx.message ? (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        GM, {ctx.message.state}! Your FID is {ctx.message.requesterFid}
-        {", "}
-        {ctx.message.requesterFid < 20_000
-          ? "you're OG!"
-          : "welcome to the Farcaster!"}
-      </div>
-    ) : (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        Say GM
+    image: (
+      <div tw="bg-green-300">
+        Check Your GreenWill!
+        {/* <img
+          alt="Green Pill"
+          src="/pill.png"
+          className="aspect-square w-1/2 h-1/2"
+        /> */}
       </div>
     ),
-    buttons: !ctx.url.searchParams.has("saidGm")
-      ? [
-          <Button action="post" target={{ query: { saidGm: true } }}>
-            Say GM
-          </Button>,
-        ]
-      : [],
+    buttons: [
+      <Button action="post" target="/calculate">
+        Calculate
+      </Button>,
+    ],
   };
 });
-
-// const handler = frames(async () => {
-//   return {
-//     image: <div tw="flex">Welcome</div>,
-//     buttons: [
-//       // With query params
-//       <Button
-//         action="post"
-//         target={{ pathname: "/route1", query: { foo: "bar" } }}
-//       >
-//         Go to route 1
-//       </Button>,
-//       // Without query params
-//       <Button action="post" target="/route2">
-//         Go to route 2
-//       </Button>,
-//     ],
-//   };
-// });
-
-// export const GET = handler;
-// export const POST = handler;
-
-// const handler = frames(async (ctx) => {
-//   if (ctx.message) {
-//     if (!ctx.message.inputText) {
-//       console.log("error");
-//       error("Invalid input: Empty text");
-//     }
-//   }
-
-//   return {
-//     image: ctx.message?.inputText ? (
-//       <div tw="flex">Entered text: {ctx.message.inputText}</div>
-//     ) : (
-//       <div tw="flex flex-col">
-//         <div tw="flex">Enter text</div>
-//         <div tw="flex">Empty text input will throw an error</div>
-//       </div>
-//     ),
-//     textInput: "Enter text or leave empty",
-//     buttons: [<Button action="post">Enter</Button>],
-//   };
-// });
 
 export const GET = handleRequest;
 export const POST = handleRequest;

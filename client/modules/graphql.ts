@@ -3,31 +3,32 @@ import { request, gql } from "graphql-request";
 const AIRSTACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 const GRANTS_STACK_API = "https://grants-stack-indexer-v2.gitcoin.co/graphql";
 
+const map = new Map();
+map.set("owocki", true);
+map.set("jimicohen", true);
+map.set("luciano", true);
+
 const queryGreenWill = gql`
-  query Rounds {
-    rounds {
-      id
-      matchAmount
-      matchAmountInUsd
-      chainId
-      createdByAddress
-      applicationsStartTime
-      applicationsEndTime
-      donationsStartTime
-      donationsEndTime
-      project {
-        name
-        createdByAddress
-      }
-      # roundMetadata
-      applications {
-        id
-        project {
-          name
-          projectType
-          createdByAddress
+  query GetFollowers {
+    SocialFollowers(
+      input: {
+        filter: {
+          identity: { _eq: "fc_fname:wusp" }
+          dappName: { _eq: farcaster }
         }
-        status
+        blockchain: ALL
+        limit: 50
+      }
+    ) {
+      Follower {
+        dappName
+        followerProfileId
+        followerAddress {
+          addresses
+          socials {
+            profileName
+          }
+        }
       }
     }
   }
@@ -44,10 +45,23 @@ const queryGrants = gql`
   }
 `;
 
-export async function fetchGreenWill() {
+export async function calculateGreenWill() {
   const data = await request<{ rounds: any[] }>(AIRSTACK_API, queryGreenWill);
+  let followers = [];
+  const temp = data.data.SocialFollowers.Follower;
+  for (let i = 0; i < temp.length; i++) {
+    for (let j = 0; j < temp[i].followerAddress.socials.length; j++) {
+      followers.push(temp[i].followerAddress.socials[j].profileName);
+    }
+  }
+  console.log(followers);
 
-  return data.rounds;
+  let score = 0;
+  for (let i = 0; i < followers.length; i++) {
+    if (map.get(followers[i]) === true) {
+      score++;
+    }
+  }
 }
 
 export async function fetchGrants(id: string) {
