@@ -1,14 +1,17 @@
-// /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 
 import { frames } from "./frames";
 
-const handler = frames(async () => {
+const handleRequest = frames(async (ctx) => {
   return {
     image: (
-      <div className="bg-green-300">
-        <h2>Check Your GreenWill!</h2>
-        <img alt="Green Pill" src="/pill.png" className="aspect-square w-1/2 h-1/2"/>
+      <div tw="bg-green-300">
+        Check Your GreenWill!
+        {/* <img
+          alt="Green Pill"
+          src="/pill.png"
+          className="aspect-square w-1/2 h-1/2"
+        /> */}
       </div>
     ),
     buttons: [
@@ -19,5 +22,5 @@ const handler = frames(async () => {
   };
 });
 
-export const GET = handler;
-export const POST = handler;
+export const GET = handleRequest;
+export const POST = handleRequest;

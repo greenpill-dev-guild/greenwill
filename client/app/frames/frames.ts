@@ -1,13 +1,11 @@
 import { createFrames } from "frames.js/next";
 import { farcasterHubContext, openframes } from "frames.js/middleware";
-import { getXmtpFrameMessage, isXmtpFrameActionPayload } from "frames.js/xmtp";
-import { getLensFrameMessage, isLensFrameActionPayload } from "frames.js/lens";
-
-// import { appURL } from "../../../utils";
+// import { getXmtpFrameMessage, isXmtpFrameActionPayload } from "frames.js/xmtp";
+// import { getLensFrameMessage, isLensFrameActionPayload } from "frames.js/lens";
 
 export type State = {
   hasClaimedToken: boolean;
-  greenWillScore: number;
+  greenWillScore: number | null;
   error: string;
 };
 
@@ -15,7 +13,7 @@ export const frames = createFrames<State>({
   basePath: "/frames",
   initialState: {
     hasClaimedToken: false,
-    greenWillScore: 0,
+    greenWillScore: null,
     error: "",
   },
   stateSigningSecret: "my-secret-key",
@@ -32,40 +30,40 @@ export const frames = createFrames<State>({
             hubHttpUrl: "http://localhost:3010/hub",
           }),
     }),
-    openframes({
-      clientProtocol: {
-        id: "xmtp",
-        version: "2024-02-09",
-      },
-      handler: {
-        isValidPayload: (body: JSON) => isXmtpFrameActionPayload(body),
-        getFrameMessage: async (body: JSON) => {
-          if (!isXmtpFrameActionPayload(body)) {
-            return undefined;
-          }
-          const result = await getXmtpFrameMessage(body);
+    // openframes({
+    //   clientProtocol: {
+    //     id: "xmtp",
+    //     version: "2024-02-09",
+    //   },
+    //   handler: {
+    //     isValidPayload: (body: JSON) => isXmtpFrameActionPayload(body),
+    //     getFrameMessage: async (body: JSON) => {
+    //       if (!isXmtpFrameActionPayload(body)) {
+    //         return undefined;
+    //       }
+    //       const result = await getXmtpFrameMessage(body);
 
-          return { ...result };
-        },
-      },
-    }),
-    openframes({
-      clientProtocol: {
-        id: "lens",
-        version: "1.0.0",
-      },
-      handler: {
-        isValidPayload: (body: JSON) => isLensFrameActionPayload(body),
-        getFrameMessage: async (body: JSON) => {
-          if (!isLensFrameActionPayload(body)) {
-            return undefined;
-          }
-          const result = await getLensFrameMessage(body);
+    //       return { ...result };
+    //     },
+    //   },
+    // }),
+    // openframes({
+    //   clientProtocol: {
+    //     id: "lens",
+    //     version: "1.0.0",
+    //   },
+    //   handler: {
+    //     isValidPayload: (body: JSON) => isLensFrameActionPayload(body),
+    //     getFrameMessage: async (body: JSON) => {
+    //       if (!isLensFrameActionPayload(body)) {
+    //         return undefined;
+    //       }
+    //       const result = await getLensFrameMessage(body);
 
-          return { ...result };
-        },
-      },
-    }),
+    //       return { ...result };
+    //     },
+    //   },
+    // }),
   ],
   debug: process.env.NODE_ENV === "development",
 });
