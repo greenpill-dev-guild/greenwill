@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-
+import { calculateGreenWill } from "../../../modules/graphql";
 import { frames } from "../frames";
 
 const PASSING_SCORE = 40;
@@ -18,8 +18,10 @@ function scoreMessage(score: number) {
 }
 
 export const POST = frames(async (ctx) => {
-  const greenWillScore = 50; /// TODO: Update with function returning score
-
+  console.log("CTX ID is", ctx.message?.requesterFid)
+  // const greenWillScore = 50; /// TODO: Update with function returning score
+  const greenWillScore = await calculateGreenWill(ctx.message?.requesterFid);
+  console.log("Your greenWill Score is ", greenWillScore);
   const canClaim = greenWillScore > PASSING_SCORE;
 
   const updatedState = {

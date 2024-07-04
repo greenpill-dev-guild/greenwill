@@ -10,7 +10,7 @@ const handleRequest = frames(async (ctx) => {
         Check Your GreenWill!
         {/* <img
           alt="Green Pill"
-          src="/pill.png"
+          src="../../public/pill.png"
           className="aspect-square w-1/2 h-1/2"
         /> */}
       </div>

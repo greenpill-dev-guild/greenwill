@@ -3,18 +3,25 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract MintNFT is ERC721{
 
+    address private owner;
     uint private s_tokenCounter; // Internal counter for NFTs minted
     mapping(uint256 => string) private s_tokenURIs;
 
-    constructor() ERC721("RegenRep", "RRP") {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Caller is not owner");
+        _;
+    }
+    constructor() ERC721("GreenWill", "GWLL") {
       s_tokenCounter = 0;
+      owner = msg.sender;
     }
 
-    //"ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json";
-    function mint(string memory tokenURI) public {
+    function mint(string memory tokenURI) public onlyOwner{ 
       _safeMint(msg.sender, s_tokenCounter);
       s_tokenURIs[s_tokenCounter] = tokenURI;
       s_tokenCounter = s_tokenCounter + 1;
     }
 
 }
+
+//contract deployed at: 0x0dFfe76472E7698e5D411dd5bF21Fe22F5C6337C
