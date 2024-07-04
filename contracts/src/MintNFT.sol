@@ -11,7 +11,7 @@ contract MintNFT is ERC721{
         require(msg.sender == owner, "Caller is not owner");
         _;
     }
-    constructor() ERC721("GreenWill", "GWL") {
+    constructor() ERC721("GreenWill", "GWLL") {
       s_tokenCounter = 0;
       owner = msg.sender;
     }
